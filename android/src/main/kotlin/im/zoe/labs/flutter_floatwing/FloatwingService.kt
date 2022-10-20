@@ -388,6 +388,7 @@ class FloatwingService : MethodChannel.MethodCallHandler, BasicMessageChannel.Me
         fun createWindow(context: Context, id: String, config: FloatWindow.Config,
                          start: Boolean = false, parent: FloatWindow?): Map<String, Any?>? {
             Log.i(TAG, "[service] create a window: $id $config")
+            config.visible = true;
             // make sure the service started
             if (!ensureService(context)) return null
 
