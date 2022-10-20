@@ -448,7 +448,10 @@ class FloatwingService : MethodChannel.MethodCallHandler, BasicMessageChannel.Me
         }
 
         fun stop(context: Context): Boolean {
-            return if(isRunning(context)){
+            val isRunning = isRunning(context)
+            Log.i(TAG, "[service] called stop service isRunning: $isRunning")
+            return if(isRunning){
+                Log.i(TAG, "[service] stopping service")
                 val intent = Intent(context, FloatwingService::class.java)
                 context.stopService(intent)
             }else{
