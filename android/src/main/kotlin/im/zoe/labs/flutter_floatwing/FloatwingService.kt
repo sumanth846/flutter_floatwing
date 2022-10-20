@@ -264,6 +264,7 @@ class FloatwingService : MethodChannel.MethodCallHandler, BasicMessageChannel.Me
         p: FloatWindow?): Map<String, Any?>? {
         // check if id exits
         if (windows.contains(id)) {
+            windows.getValue(id).destroy();
             Log.e(TAG, "[service] window with id $id exits")
             return null
         }
