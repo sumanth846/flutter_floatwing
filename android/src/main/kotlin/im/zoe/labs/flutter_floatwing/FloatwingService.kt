@@ -446,5 +446,14 @@ class FloatwingService : MethodChannel.MethodCallHandler, BasicMessageChannel.Me
         fun start(context: Context): Boolean {
             return ensureService(context)
         }
+
+        fun stop(context: Context): Boolean {
+            return if(isRunning(context)){
+                val intent = Intent(context, FloatwingService::class.java)
+                context.stopService(intent)
+            }else{
+                false
+            }
+        }
     }
 }

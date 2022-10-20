@@ -141,6 +141,10 @@ class FloatwingPlugin {
     return await _channel.invokeMethod("plugin.start_service");
   }
 
+  Future<bool> stopService() async {
+    return await _channel.invokeMethod("plugin.stop_service");
+  }
+
   Future<bool> cleanCache() async {
     return await _channel.invokeMethod("plugin.clean_cache");
   }

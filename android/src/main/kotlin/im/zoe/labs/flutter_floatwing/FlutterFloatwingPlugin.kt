@@ -54,7 +54,7 @@ class FlutterFloatwingPlugin: FlutterPlugin, ActivityAware, MethodCallHandler, P
       engine = binding.flutterEngine
       FlutterEngineCache.getInstance().put(FLUTTER_ENGINE_CACHE_KEY, engine)
       // should install service handler for every engine? @only main
-      // window has already set in this own logic
+      // window has already set in this own logicplugin.clean_cache
       serviceChannelInstalled = FloatwingService.installChannel(engine)
         .also { r -> if (!r) {
           MethodChannel(engine.dartExecutor.binaryMessenger,
@@ -157,6 +157,9 @@ class FlutterFloatwingPlugin: FlutterPlugin, ActivityAware, MethodCallHandler, P
       "plugin.start_service" -> {
         return result.success(FloatwingService.isRunning(mContext)
           .or(FloatwingService.start(mContext)))
+      }
+      "plugin.stop_Service" -> {
+        return result.success(FloatwingService.stop(mContext))
       }
       "plugin.clean_cache" -> {
         return result.success(cleanCache())
