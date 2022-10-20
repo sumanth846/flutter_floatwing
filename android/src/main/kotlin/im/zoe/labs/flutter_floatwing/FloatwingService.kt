@@ -27,6 +27,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.view.FlutterCallbackInformation
 import org.json.JSONObject
 import java.lang.Exception
+import java.util.function.Consumer
 
 class FloatwingService : MethodChannel.MethodCallHandler, BasicMessageChannel.MessageHandler<Any?>, Service() {
 
@@ -448,15 +449,28 @@ class FloatwingService : MethodChannel.MethodCallHandler, BasicMessageChannel.Me
         }
 
         fun stop(context: Context): Boolean {
-            val isRunning = isRunning(context)
-            Log.i(TAG, "[service] called stop service isRunning: $isRunning")
-            return if(isRunning){
-                Log.i(TAG, "[service] stopping service")
-                val intent = Intent(context, FloatwingService::class.java)
-                context.stopService(intent)
-            }else{
-                false
+            if (instance != null) return true
+
+
+            // let's start the service
+
+            // make sure we granted permission
+            if (!FlutterFloatwingPlugin.permissionGiven(context)) {
+                Log.e(TAG, "[service] don't have permission to create overlay window")
+                return false
             }
+
+            // start the service
+            val intent = Intent(context, FloatwingService::class.java)
+            context.stopService(intent);
+
+            while (instance==null) {
+                Log.d(TAG, "[service] wait for service created")
+                Thread.sleep(100 * 1)
+                break
+            }
+
+            return true
         }
     }
 }
